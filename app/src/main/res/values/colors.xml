@@ -7,4 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- App related -->
+    <color name="login_bg">#08063D</color>
+    <color name="orange">#FE805D</color>
+    <color name="text_black">#4A4A4A</color>
+    <color name="text_black_light">#804A4A4A</color>
+    <color name="text_white">#FFFFFFFF</color>
+    <color name="text_white_light">#BFFFFFFF</color>
+    <color name="blue">#4542D5</color>
+    <color name="main_bg">#FFEBEB</color>
+
+    <color name="dark_pink">#EB9393</color>
+    <color name="main_bg_pink">#FFEBEB</color>
 </resources>
