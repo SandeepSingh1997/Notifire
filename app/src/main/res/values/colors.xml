@@ -17,6 +17,9 @@
     <color name="text_white_light">#BFFFFFFF</color>
     <color name="blue">#4542D5</color>
     <color name="main_bg">#FFEBEB</color>
+    <color name="gray">#E6E6E6</color>
+
+    <color name="edit_text_gray">#C3C3C3</color>
 
     <color name="dark_pink">#EB9393</color>
     <color name="main_bg_pink">#FFEBEB</color>

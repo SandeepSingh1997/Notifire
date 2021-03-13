@@ -14,6 +14,29 @@
     <string name="signup_password">enter a password</string>
     <string name="signup_confirm_password">confirm password</string>
     <string name="already_ID">have an ID? Login</string>
+
+
+    <!-- join new board -->
+    <string name="search_link">search by link</string>
+    <string name="search_by_name">search by name</string>
+    <string name="or">OR</string>
+    <string name="search_results">search results</string>
+    <string name="search">search</string>
+
+
+    <!-- Create new board -->
+    <string name="enter_title">title of the board</string>
+    <string name="enter_desc">description</string>
+    <string name="enter_contact">contact or link</string>
+    <string name="create">create</string>
+
+
+    <!-- publish-->
+    <string name="notice_title">title</string>
+    <string name="subject">subject</string>
+    <string name="description">description</string>
+    <string name="publish">publish</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

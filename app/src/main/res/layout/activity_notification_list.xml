@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".JoinedOwned">
+    tools:context=".NotificationList">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,31 +20,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/info_bar_height"
+            android:background="@color/blue"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/info_bar_height"
-                android:background="@color/blue"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/tab_bar_height"
-                android:background="@color/blue"
-                app:tabIndicatorColor="@color/orange"
-                app:tabSelectedTextColor="@color/white"
-                app:tabTextColor="@color/text_white_light" />
         </LinearLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notice_list_RV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
