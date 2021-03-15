@@ -9,29 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/mytheme">
-        <activity android:name=".PublishNewNotice">
+        <activity android:name=".SplashScreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".Join_new_board">
-        </activity>
-
-        <activity android:name=".CreateNewBoard"></activity>
-
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity android:name=".PublishNewNotice"></activity>
+        <activity android:name=".JoinNewBoard"></activity>
+        <activity android:name=".CreateNewBoard" />
         <activity android:name=".NotificationList" />
+        <activity android:name=".JoinedOwned">
 
-        <activity android:name=".JoinedOwned" />
-
-        <activity android:name=".MainActivity" />
-
+        </activity>
         <activity android:name=".SignupActivity" />
-
         <activity android:name=".LoginActivity" />
-
     </application>
 
 </manifest>

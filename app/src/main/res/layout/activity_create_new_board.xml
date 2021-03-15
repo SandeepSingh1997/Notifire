@@ -29,9 +29,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/edit_text"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_regular" />
+            android:background="@drawable/edit_text" />
 
         <EditText
             android:layout_width="@dimen/edit_text_width"

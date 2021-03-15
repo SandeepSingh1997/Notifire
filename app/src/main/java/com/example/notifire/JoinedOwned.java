@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,20 +33,18 @@ public class JoinedOwned extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         //Fragments
-
         joinedFragment = new Joined();
         ownedFragment = new Owned();
 
         tablayout.setupWithViewPager(viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter( getSupportFragmentManager(), 0);
-
         viewPagerAdapter.addFragment(joinedFragment, "joined");
         viewPagerAdapter.addFragment(ownedFragment, "owned");
-
         viewPager.setAdapter(viewPagerAdapter);
 
     }
+
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 

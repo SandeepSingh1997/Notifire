@@ -1,5 +1,6 @@
 package com.example.notifire;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,20 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Owned#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Owned extends Fragment {
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class Owned extends Fragment implements RVAdapter.MyOnClickListener{
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -30,15 +26,6 @@ public class Owned extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Owned.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Owned newInstance(String param1, String param2) {
         Owned fragment = new Owned();
         Bundle args = new Bundle();
@@ -57,6 +44,7 @@ public class Owned extends Fragment {
         }
     }
 
+    FloatingActionButton createNewButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,12 +53,30 @@ public class Owned extends Fragment {
 
         //setting up recycler view
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.owned_recycler_view);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new RVAdapter(this));
 
-        recyclerView.setAdapter(new RecyclerViewAdapter());
+        createNewButton = (FloatingActionButton) view.findViewById(R.id.create_new_button);
+        createNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreateNewBoard.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
+    }
+
+    @Override
+    public void onClick(int position) {
+        Intent intent = new Intent(getActivity(), NotificationList.class);
+        intent.putExtra("isFromOwned",true);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLongClick(int position) {
     }
 }

@@ -21,12 +21,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/blue"
+            android:elevation="@dimen/elevation">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/info_bar_height"
-                android:background="@color/blue"
+                android:background="@color/text_black_light"
                 android:orientation="vertical">
 
             </LinearLayout>
@@ -35,7 +37,6 @@
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tab_bar_height"
-                android:background="@color/blue"
                 app:tabIndicatorColor="@color/orange"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextColor="@color/text_white_light" />
