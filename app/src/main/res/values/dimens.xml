@@ -35,8 +35,8 @@
     <dimen name="tile_corner_radius">15dp</dimen>
 
     <!-- others -->
-    <dimen name="info_bar_height">70dp</dimen>
-    <dimen name="tab_bar_height">40dp</dimen>
+    <dimen name="info_bar_height">60dp</dimen>
+    <dimen name="tab_bar_height">50dp</dimen>
     <dimen name="elevation">5dp</dimen>
     <dimen name="corner_stroke_width">2dp</dimen>
 

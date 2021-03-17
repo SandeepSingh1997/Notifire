@@ -71,8 +71,11 @@ public class Owned extends Fragment implements RVAdapter.MyOnClickListener{
 
     @Override
     public void onClick(int position) {
+        String boardID = "board123";
         Intent intent = new Intent(getActivity(), NotificationList.class);
+
         intent.putExtra("isFromOwned",true);
+        intent.putExtra("boardID", boardID);
         startActivity(intent);
     }
 

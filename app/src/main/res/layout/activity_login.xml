@@ -75,7 +75,7 @@
             android:textColor="@color/text_white"/>
 
         <TextView
-            android:id="@+id/login_signup"
+            android:id="@+id/goto_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_margin_more"
@@ -85,11 +85,12 @@
             />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/login_progress"
             android:layout_marginTop="30dp"
             style="?android:attr/progressBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             />
 
     </LinearLayout>

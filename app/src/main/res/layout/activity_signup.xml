@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,16 +20,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:text="@string/signup"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_largest"/>
 
     <EditText
-        android:id="@+id/signup_username"
+        android:id="@+id/signup_name"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_gravity="center"
         android:background="@drawable/login_edit_text"
         android:singleLine="true"
         android:textSize="@dimen/text_size_regular"
@@ -37,13 +36,24 @@
         android:inputType="text"
         android:textColor="@color/text_black"
         android:layout_marginTop="@dimen/vertical_margin_more"/>
+    <EditText
+        android:id="@+id/signup_username"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/login_edit_text"
+        android:singleLine="true"
+        android:textSize="@dimen/text_size_regular"
+        android:hint="@string/signup_username"
+        android:textColorHint="@color/text_black_light"
+        android:inputType="text"
+        android:textColor="@color/text_black"
+        android:layout_marginTop="@dimen/vertical_margin"/>
 
     <EditText
 
         android:id="@+id/signup_password"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_gravity="center"
         android:background="@drawable/login_edit_text"
         android:singleLine="true"
         android:inputType="textPassword"
@@ -57,7 +67,6 @@
             android:id="@+id/signup_confirm_password"
             android:layout_width="@dimen/edit_text_width"
             android:layout_height="@dimen/edit_text_height"
-            android:layout_gravity="center"
             android:background="@drawable/login_edit_text"
             android:singleLine="true"
             android:inputType="textPassword"
@@ -74,7 +83,6 @@
         android:background="@drawable/button"
         android:backgroundTint="@color/orange"
         android:layout_marginTop="@dimen/vertical_margin"
-        android:layout_gravity="center"
         android:text="@string/signup"
         android:textColor="@color/text_white"/>
 
@@ -83,10 +91,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_margin_more"
-        android:layout_gravity="center"
         android:text="@string/already_ID"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small"
         />
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/signup_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:visibility="invisible"
+            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

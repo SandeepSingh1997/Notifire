@@ -32,7 +32,9 @@ public class NotificationList extends AppCompatActivity {
             publishNewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), PublishNewNotice.class);
+                    String boardID = getIntent().getStringExtra("boardID");
+                    Intent intent = new Intent(NotificationList.this, PublishNewNotice.class);
+                    intent.putExtra("boardID", boardID);
                     startActivity(intent);
                 }
             });

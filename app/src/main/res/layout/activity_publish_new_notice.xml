@@ -68,7 +68,7 @@
 
             android:background="@drawable/edit_text"
             android:backgroundTint="@color/blue"
-            android:hint="@string/description"
+            android:hint="description(optional)"
             android:singleLine="false"
 
             android:textColor="@color/text_white"
@@ -76,6 +76,7 @@
             android:textSize="@dimen/text_size_regular" />
 
         <Button
+            android:id="@+id/publish_notice_button"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="30dp"

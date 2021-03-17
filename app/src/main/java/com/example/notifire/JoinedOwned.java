@@ -10,8 +10,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +33,12 @@ public class JoinedOwned extends AppCompatActivity {
 
     private Joined joinedFragment;
     private Owned ownedFragment;
+    private Button logout;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+
+    private TextView userIdText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +47,48 @@ public class JoinedOwned extends AppCompatActivity {
 
         tablayout =(TabLayout) findViewById(R.id.tablayout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+        logout = (Button) findViewById(R.id.logout);
+        userIdText = (TextView)findViewById(R.id.userID);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        //fetching the current user's Document and data
+        DocumentReference userDocument = db.collection("users").document(firebaseAuth.getCurrentUser().getUid());
+        userDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        userIdText.setText("Hello, "+document.get("name").toString());
+                    }else {
+                        Toast.makeText(JoinedOwned.this, "document doesnt exist",Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(JoinedOwned.this, "task Unsuccessful",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //Fragments
         joinedFragment = new Joined();
         ownedFragment = new Owned();
 
         tablayout.setupWithViewPager(viewPager);
-
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter( getSupportFragmentManager(), 0);
         viewPagerAdapter.addFragment(joinedFragment, "joined");
         viewPagerAdapter.addFragment(ownedFragment, "owned");
         viewPager.setAdapter(viewPagerAdapter);
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(JoinedOwned.this, LoginActivity.class));
+                finish();
+            }
+        });
     }
 
 
