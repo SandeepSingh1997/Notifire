@@ -46,6 +46,7 @@
                     android:textSize="@dimen/text_size_regular" />
 
                 <TextView
+                    android:id="@+id/search_tile_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="description"

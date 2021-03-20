@@ -1,10 +1,12 @@
 package com.example.notifire;
 
 public class Board {
-    private String title, description, contact, ownerID;
+    private String boardID, title, description, contact, ownerID;
 
-    public Board(){}
-    public Board(String title, String description, String contact, String ownerID){
+    public Board() {
+    }
+
+    public Board(String title, String description, String contact, String ownerID) {
         this.title = title;
         this.description = description;
         this.contact = contact;
@@ -25,5 +27,9 @@ public class Board {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getBoardID() {
+        return boardID;
     }
 }

@@ -100,7 +100,7 @@ public class SignupActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                    startActivity(new Intent(SignupActivity.this,JoinedOwned.class));
+                                    startActivity(new Intent(SignupActivity.this,SplashScreen.class));
                                     finish();
                                 }
                             }

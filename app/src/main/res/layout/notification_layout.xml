@@ -34,6 +34,7 @@
                 android:textColor="@color/text_black" />
 
             <TextView
+                android:id="@+id/notice_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Monday, 12:30 AM"
@@ -41,6 +42,7 @@
                 android:textColor="@color/text_black_light" />
 
             <TextView
+                android:id="@+id/notice_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar "

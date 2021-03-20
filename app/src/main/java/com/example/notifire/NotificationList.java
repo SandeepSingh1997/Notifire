@@ -8,23 +8,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class NotificationList extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    FloatingActionButton publishNewButton;
+    private FloatingActionButton publishNewButton;
+    private String boardID;
+    private NoticeListRVAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_list);
 
-        //Setting up the recycler view
+        boardID = getIntent().getStringExtra("boardID");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Query query = db.collection("boards").document(boardID).collection("notices");
+
+        FirestoreRecyclerOptions<Notice> options = new FirestoreRecyclerOptions.Builder<Notice>().
+                setQuery(query, Notice.class).build();
+
+        adapter = new NoticeListRVAdapter( options);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.notice_list_RV);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new NoticeListRVAdapter());
+        recyclerView.setAdapter(adapter);
 
+
+        //checking from which fragment activity started
         boolean isFromOwnedActivity = getIntent().getBooleanExtra("isFromOwned",false);
         if(isFromOwnedActivity){
             publishNewButton = (FloatingActionButton) findViewById(R.id.publish_new_button);
@@ -32,13 +47,23 @@ public class NotificationList extends AppCompatActivity {
             publishNewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String boardID = getIntent().getStringExtra("boardID");
                     Intent intent = new Intent(NotificationList.this, PublishNewNotice.class);
                     intent.putExtra("boardID", boardID);
                     startActivity(intent);
                 }
             });
         }
+    }
+    //To start and stop listening to the firebase
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }

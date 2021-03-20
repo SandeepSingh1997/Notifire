@@ -29,6 +29,7 @@
 
 
         <EditText
+            android:id="@+id/search_by_id"
             android:layout_width="@dimen/edit_text_width"
             android:layout_height="@dimen/edit_text_height"
             android:layout_marginTop="20dp"
@@ -60,6 +61,7 @@
             android:textSize="@dimen/text_size_regular" />
 
         <Button
+            android:id="@+id/join_search_button"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="20dp"

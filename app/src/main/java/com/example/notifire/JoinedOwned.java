@@ -37,6 +37,7 @@ public class JoinedOwned extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    private String uId;
 
     private TextView userIdText;
 
@@ -49,27 +50,11 @@ public class JoinedOwned extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         logout = (Button) findViewById(R.id.logout);
         userIdText = (TextView)findViewById(R.id.userID);
+        userIdText.setText(SplashScreen.name);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        uId = firebaseAuth.getCurrentUser().getUid();
         db = FirebaseFirestore.getInstance();
-
-        //fetching the current user's Document and data
-        DocumentReference userDocument = db.collection("users").document(firebaseAuth.getCurrentUser().getUid());
-        userDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
-                        userIdText.setText("Hello, "+document.get("name").toString());
-                    }else {
-                        Toast.makeText(JoinedOwned.this, "document doesnt exist",Toast.LENGTH_SHORT).show();
-                    }
-                }else {
-                    Toast.makeText(JoinedOwned.this, "task Unsuccessful",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         //Fragments
         joinedFragment = new Joined();

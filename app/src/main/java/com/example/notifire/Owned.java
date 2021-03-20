@@ -12,50 +12,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-public class Owned extends Fragment implements RVAdapter.MyOnClickListener{
+import java.util.ArrayList;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class Owned extends Fragment implements BoardRVAdapter.MyOnClickListener{
 
-    private String mParam1;
-    private String mParam2;
+    private String uId;
 
     public Owned() {
-        // Required empty public constructor
-    }
-
-    public static Owned newInstance(String param1, String param2) {
-        Owned fragment = new Owned();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        this.uId = SplashScreen.uId;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
-    FloatingActionButton createNewButton;
+    private FloatingActionButton createNewButton;
+    private FirebaseFirestore db;
+    private BoardRVAdapter adapter;
+    ArrayList<String> ownedList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_owned, container, false);
 
-        //setting up recycler view
+        db = FirebaseFirestore.getInstance();
+
+        ownedList = SplashScreen.ownedBoardsList;
+        Query query = db.collection("boards").whereIn("__name__", ownedList);
+
+        FirestoreRecyclerOptions<Board> options = new FirestoreRecyclerOptions.Builder<Board>().
+                setQuery(query, Board.class).build();
+
+        adapter = new BoardRVAdapter(this, options);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.owned_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(new RVAdapter(this));
+        recyclerView.setAdapter(adapter);
 
         createNewButton = (FloatingActionButton) view.findViewById(R.id.create_new_button);
         createNewButton.setOnClickListener(new View.OnClickListener() {
@@ -69,17 +70,29 @@ public class Owned extends Fragment implements RVAdapter.MyOnClickListener{
         return view;
     }
 
+    //To start and stop listening to the firebase
     @Override
-    public void onClick(int position) {
-        String boardID = "board123";
-        Intent intent = new Intent(getActivity(), NotificationList.class);
-
-        intent.putExtra("isFromOwned",true);
-        intent.putExtra("boardID", boardID);
-        startActivity(intent);
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
     }
 
     @Override
-    public void onLongClick(int position) {
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+    @Override
+    public void onClick(int position, String boardID) {
+        Toast.makeText(getActivity(),boardID,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), NotificationList.class);
+        intent.putExtra("isFromOwned",true);
+        intent.putExtra("boardID", boardID);
+       startActivity(intent);
+    }
+
+    @Override
+    public void onLongClick(int position, String boardID) {
     }
 }

@@ -3,15 +3,23 @@ package com.example.notifire;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+
+public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapter.ViewHolder> {
 
     private MyOnClickListener onClickListener;
 
-    public RVAdapter(MyOnClickListener onClickListener){
+    public BoardRVAdapter(MyOnClickListener onClickListener, FirestoreRecyclerOptions<Board> options) {
+        super(options);
         this.onClickListener = onClickListener;
     }
 
@@ -29,52 +37,49 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) { }
-
-    @Override
-    public int getItemCount() {
-        return 5;
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Board model) {
+        holder.boardID = model.getBoardID();
+        holder.boardTitle.setText(model.getTitle());
+        holder.boardDesc.setText(model.getDescription());
+        holder.boardContact.setText(model.getContact());
     }
 
     //THE VIEW HOLDER INNER CLASS
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        //the text to be changed
-        private View view;
+        private TextView boardTitle, boardDesc, boardContact;
+        private String boardID;
         MyOnClickListener myOnClickListener;
 
         public ViewHolder(@NonNull View itemView, MyOnClickListener onClickListener) {
             super(itemView);
-            //Find the views to be populated with data
-            view = itemView.findViewById(R.id.board_view);
+            boardID = new String();
+            boardTitle = itemView.findViewById(R.id.board_tile_title);
+            boardDesc = itemView.findViewById(R.id.board_tile_desc);
+            boardContact = itemView.findViewById(R.id.board_tile_contact);
             myOnClickListener = onClickListener;
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    myOnClickListener.onClick(getAdapterPosition());
+                    myOnClickListener.onClick(getAdapterPosition(), boardID);
                 }
             });
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    myOnClickListener.onLongClick(getAdapterPosition());
+                    myOnClickListener.onLongClick(getAdapterPosition(), boardID);
                     return true;
                 }
             });
         }
-
-        //return the View which is to be populated with data here
-        public View getView() {
-            return view;
-        }
     }
 
     //OnClickListener INTERFACE
-    public interface MyOnClickListener{
-        void onClick( int position);
-        void onLongClick(int position);
+    public interface MyOnClickListener {
+        void onClick(int position, String boardID);
+
+        void onLongClick(int position, String boardID);
     }
 
 }

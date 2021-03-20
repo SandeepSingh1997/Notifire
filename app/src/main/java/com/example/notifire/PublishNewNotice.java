@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,6 +21,7 @@ import java.util.Date;
 public class PublishNewNotice extends AppCompatActivity {
 
     private Button publishNewNoticeButton;
+    private EditText titleEtext, subjectEtext, descEtext;
     private FirebaseFirestore db;
 
     @Override
@@ -27,8 +29,12 @@ public class PublishNewNotice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_new_notice);
 
-        Toast.makeText(PublishNewNotice.this, getIntent().getStringExtra("boardID"),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(PublishNewNotice.this, getIntent().getStringExtra("boardID"),Toast.LENGTH_SHORT).show();
         publishNewNoticeButton = (Button) findViewById(R.id.publish_notice_button);
+        titleEtext = (EditText)findViewById(R.id.publish_title);
+        subjectEtext = (EditText)findViewById(R.id.publish_subject);
+        descEtext = (EditText)findViewById(R.id.publish_description);
+
         publishNewNoticeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,12 +42,16 @@ public class PublishNewNotice extends AppCompatActivity {
                 String boardID = getIntent().getStringExtra("boardID");
 
                 Date publishDate = new Date();
-                String title = "DUCS";
-                String subject = "www.ducs.in";
-                String description = "Department of Computer Science";
+                String title = titleEtext.getText().toString();
+                String subject = subjectEtext.getText().toString();
+                String description = descEtext.getText().toString();
+                if (title.isEmpty() || subject.isEmpty() ){
+                    titleEtext.setError("Only optional field can be left empty");
+                    return;
+                }
 
                 Notice notice = new Notice(title, subject, description, publishDate);
-                db.collection("boards").document(boardID).collection("notice").add(notice).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                db.collection("boards").document(boardID).collection("notices").add(notice).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(PublishNewNotice.this, "The notice has been added", Toast.LENGTH_SHORT).show();

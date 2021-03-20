@@ -8,7 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NoticeListRVAdapter extends RecyclerView.Adapter<NoticeListRVAdapter.ViewHolder> {
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
+import java.text.DateFormat;
+
+public class NoticeListRVAdapter extends FirestoreRecyclerAdapter<Notice, NoticeListRVAdapter.ViewHolder> {
+
+    public NoticeListRVAdapter(@NonNull FirestoreRecyclerOptions<Notice> options) {
+        super(options);
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -23,13 +32,11 @@ public class NoticeListRVAdapter extends RecyclerView.Adapter<NoticeListRVAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //holder.getView().setText("hello");
-    }
-
-    @Override
-    public int getItemCount() {
-        return 10;
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Notice model) {
+        holder.noticeTitle.setText(model.getTitle());
+        holder.noticeSubject.setText(model.getSubject());
+        //holder.noticeDesc.setText(model.getDescription());
+        holder.noticeDate.setText(DateFormat.getDateInstance().format(model.getPublishDate()));
     }
 
     //The View Holder Class
@@ -37,15 +44,16 @@ public class NoticeListRVAdapter extends RecyclerView.Adapter<NoticeListRVAdapte
 
         //the text to be changed
         private TextView noticeTitle;
+        private TextView noticeSubject;
+        //private TextView noticeDesc;
+        private TextView noticeDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             noticeTitle = itemView.findViewById(R.id.notice_title);
-        }
-
-        //return the View which is to be populated with data here
-        public TextView getView() {
-            return noticeTitle;
+            noticeSubject = itemView.findViewById(R.id.notice_subject);
+            //noticeDesc = itemView.findViewById(R.id.notice_desc);
+            noticeDate = itemView.findViewById(R.id.notice_date);
         }
     }
 }
