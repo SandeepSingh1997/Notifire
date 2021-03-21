@@ -50,6 +50,7 @@
 
 
         <EditText
+            android:id="@+id/search_by_name"
             android:layout_width="@dimen/edit_text_width"
             android:layout_height="@dimen/edit_text_height"
             android:layout_marginTop="10dp"

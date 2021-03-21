@@ -25,11 +25,20 @@
             android:background="@color/blue"
             android:orientation="vertical"></LinearLayout>
 
-        <ImageButton
+        <ImageView
+            android:id="@+id/board_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/edit_text" />
+            android:src="@mipmap/ic_launcher"/>
+        <Button
+            android:id="@+id/select_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/blue"
+            android:text="select image"
+            />
 
         <EditText
             android:id="@+id/board_title"

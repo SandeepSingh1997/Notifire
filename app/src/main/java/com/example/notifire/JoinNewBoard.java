@@ -24,20 +24,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class JoinNewBoard extends AppCompatActivity implements SearchRVAdapter.MyClickListener {
-    private EditText searchByLinkEText;
+    private EditText searchByLinkEText, searchByNameEText;
     private Button searchButton;
     public ArrayList<Board> boardArrayList;
     public FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_new_board);
 
-         db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         searchByLinkEText = (EditText) findViewById(R.id.search_by_id);
+        searchByNameEText = (EditText) findViewById(R.id.search_by_name);
         searchButton = (Button) findViewById(R.id.join_search_button);
-        searchByLinkEText.setText("fZHIKRK5yWGSZUQjmk96");
         boardArrayList = new ArrayList<>();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.join_new_recycler_view);
@@ -50,38 +51,47 @@ public class JoinNewBoard extends AppCompatActivity implements SearchRVAdapter.M
             @Override
             public void onClick(View v) {
                 String searchLink = searchByLinkEText.getText().toString().trim();
-                if(searchLink.isEmpty()){
-                    searchByLinkEText.setError("Please enter a link");
-                    return;
-                }
-                db.collection("boards").whereEqualTo("__name__",searchLink).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            boardArrayList.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                boardArrayList.add(document.toObject(Board.class));
+                String searchName = searchByNameEText.getText().toString().trim();
+                if (!searchLink.isEmpty()) {
+                    db.collection("boards").whereEqualTo("__name__", searchLink).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    boardArrayList.add(document.toObject(Board.class));
+                                }
+                                adapter.notifyDataSetChanged();
                             }
-                            adapter.notifyDataSetChanged();
                         }
-                    }
-                });
-
+                    });
+                } else if (!searchName.isEmpty()) {
+                    db.collection("boards").whereEqualTo("title", searchName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    boardArrayList.add(document.toObject(Board.class));
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }else {
+                    searchByNameEText.setError("Please enter something to search!");
+                }
             }
         });
     }
 
     @Override
     public void onMyClick(int position, String boardID) {
-        Toast.makeText(JoinNewBoard.this,"long click",Toast.LENGTH_SHORT).show();
         db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .update("joinedBoardsID", FieldValue.arrayUnion(boardID)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(JoinNewBoard.this,"You joined the board",Toast.LENGTH_SHORT).show();
+                Toast.makeText(JoinNewBoard.this, "You joined the board", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
 }

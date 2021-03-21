@@ -1,5 +1,6 @@
 package com.example.notifire;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.rpc.context.AttributeContext;
 
 import java.util.ArrayList;
 
@@ -52,18 +55,14 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.ViewHo
         public TextView title, desc;
         public String boardID;
         MyClickListener myClickListener;
-        public ViewHolder(@NonNull View itemView, MyClickListener myListener) {
+
+        public ViewHolder(@NonNull View itemView, MyClickListener listener) {
             super(itemView);
-
-            myClickListener = myListener;
-
             title = itemView.findViewById(R.id.search_tile_title);
             desc = itemView.findViewById(R.id.search_tile_desc);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    myClickListener.onMyClick(getAdapterPosition(), boardID);
-                }
+            myClickListener = listener;
+            itemView.setOnClickListener(v -> {
+                myClickListener.onMyClick(getAdapterPosition(), boardID);
             });
         }
     }
@@ -71,4 +70,5 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.ViewHo
     public interface MyClickListener {
          void onMyClick(int position, String boardID);
     }
+
 }
