@@ -32,7 +32,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/publish_new_button"
         android:layout_width="60dp"
         android:layout_height="60dp"

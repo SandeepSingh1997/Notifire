@@ -3,6 +3,7 @@ package com.example.notifire;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,7 @@ public class NoticeListRVAdapter extends FirestoreRecyclerAdapter<Notice, Notice
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Notice model) {
         holder.noticeTitle.setText(model.getTitle());
         holder.noticeSubject.setText(model.getSubject());
-        //holder.noticeDesc.setText(model.getDescription());
+        holder.noticeDesc.setText(model.getDescription());
         holder.noticeDate.setText(DateFormat.getDateInstance().format(model.getPublishDate()));
     }
 
@@ -45,15 +46,26 @@ public class NoticeListRVAdapter extends FirestoreRecyclerAdapter<Notice, Notice
         //the text to be changed
         private TextView noticeTitle;
         private TextView noticeSubject;
-        //private TextView noticeDesc;
+        private TextView noticeDesc;
         private TextView noticeDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             noticeTitle = itemView.findViewById(R.id.notice_title);
             noticeSubject = itemView.findViewById(R.id.notice_subject);
-            //noticeDesc = itemView.findViewById(R.id.notice_desc);
+            noticeDesc = itemView.findViewById(R.id.notice_desc);
             noticeDate = itemView.findViewById(R.id.notice_date);
+            FrameLayout frameLayout = itemView.findViewById(R.id.desc_frame);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(frameLayout.getVisibility() == View.GONE){
+                        frameLayout.setVisibility(View.VISIBLE);
+                    }else {
+                        frameLayout.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
     }
 }

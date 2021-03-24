@@ -90,6 +90,7 @@ public class JoinNewBoard extends AppCompatActivity implements SearchRVAdapter.M
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(JoinNewBoard.this, "You joined the board", Toast.LENGTH_SHORT).show();
+                SplashScreen.joinedBoardsList.add(boardID);
             }
         });
     }

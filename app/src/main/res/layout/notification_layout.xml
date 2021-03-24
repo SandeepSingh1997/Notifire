@@ -43,12 +43,26 @@
                 android:id="@+id/notice_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar "
+                android:text="ipsum dolar lorem ipsum dolar lorem ipsum dolar lorem ipsum dolar "
                 android:layout_marginTop="5dp"
                 android:textSize="@dimen/text_size_small"
                 android:textColor="@color/text_black" />
 
         </LinearLayout>
+        <FrameLayout
+            android:id="@+id/desc_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/notice_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Description"
+                android:textColor="@color/white"/>
+        </FrameLayout>
 
 
     </LinearLayout>

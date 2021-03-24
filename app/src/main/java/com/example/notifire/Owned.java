@@ -1,5 +1,7 @@
 package com.example.notifire;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,13 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
-public class Owned extends Fragment implements BoardRVAdapter.MyOnClickListener{
+public class Owned extends Fragment implements BoardRVAdapter.MyOnClickListener {
 
     private String uId;
 
@@ -85,14 +89,31 @@ public class Owned extends Fragment implements BoardRVAdapter.MyOnClickListener{
 
     @Override
     public void onClick(int position, String boardID) {
-        Toast.makeText(getActivity(),boardID,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), boardID, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), NotificationList.class);
-        intent.putExtra("isFromOwned",true);
+        intent.putExtra("isFromOwned", true);
         intent.putExtra("boardID", boardID);
-       startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
-    public void onLongClick(int position, String boardID) {
+    public void onLongClick(int position, View v, String boardID, String bName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Do you want to delete '" + bName + "'").setPositiveButton("delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.collection("boards").document(boardID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        db.collection("users").document(uId).update("ownedBoardsID", FieldValue.arrayRemove(boardID));
+                    }
+                });
+                SplashScreen.ownedBoardsList.remove(boardID);
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).create().show();
     }
 }

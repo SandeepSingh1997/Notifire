@@ -56,6 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="https://www.du.ac.in"
+                    android:textIsSelectable="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_regular" />
 

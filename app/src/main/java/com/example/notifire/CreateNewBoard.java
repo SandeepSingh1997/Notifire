@@ -21,6 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 
 public class CreateNewBoard extends AppCompatActivity {
 
@@ -30,6 +34,8 @@ public class CreateNewBoard extends AppCompatActivity {
     Bitmap image;
     private int PICK_IMG = 100;
     private FirebaseFirestore db;
+    StorageReference imageStorageRef;
+    String boardID;
     private Uri imageUri;
 
     @Override
@@ -72,31 +78,16 @@ public class CreateNewBoard extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         //adding the board ID in user's ownedBoards field
+                        boardID = documentReference.getId();
+                        documentReference.update("boardID", boardID);
                         db.collection("users").document(uID).update("ownedBoardsID",
-                                FieldValue.arrayUnion(documentReference.getId())).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(CreateNewBoard.this, "ownedlist updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(CreateNewBoard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        Toast.makeText(CreateNewBoard.this, "The board has been added", Toast.LENGTH_SHORT).show();
+                                FieldValue.arrayUnion(boardID));
+                        //Toast.makeText(CreateNewBoard.this, "The board has been added", Toast.LENGTH_SHORT).show();
                         finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreateNewBoard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
-
     }
 
     @Override

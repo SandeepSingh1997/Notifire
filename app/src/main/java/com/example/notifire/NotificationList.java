@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class NotificationList extends AppCompatActivity {
+public class NotificationList extends AppCompatActivity{
 
     private FloatingActionButton publishNewButton;
     private String boardID;
@@ -37,7 +38,6 @@ public class NotificationList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
 
         //checking from which fragment activity started
         boolean isFromOwnedActivity = getIntent().getBooleanExtra("isFromOwned",false);
@@ -66,4 +66,6 @@ public class NotificationList extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }
+
+
 }

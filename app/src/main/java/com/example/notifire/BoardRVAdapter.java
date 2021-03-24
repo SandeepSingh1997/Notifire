@@ -39,6 +39,7 @@ public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapt
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Board model) {
         holder.boardID = model.getBoardID();
+        holder.boardName = model.getTitle();
         holder.boardTitle.setText(model.getTitle());
         holder.boardDesc.setText(model.getDescription());
         holder.boardContact.setText(model.getContact());
@@ -48,7 +49,7 @@ public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapt
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView boardTitle, boardDesc, boardContact;
-        private String boardID;
+        private String boardID, boardName;
         MyOnClickListener myOnClickListener;
 
         public ViewHolder(@NonNull View itemView, MyOnClickListener onClickListener) {
@@ -68,7 +69,7 @@ public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapt
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    myOnClickListener.onLongClick(getAdapterPosition(), boardID);
+                    myOnClickListener.onLongClick(getAdapterPosition(), v ,boardID, boardName );
                     return true;
                 }
             });
@@ -79,7 +80,7 @@ public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapt
     public interface MyOnClickListener {
         void onClick(int position, String boardID);
 
-        void onLongClick(int position, String boardID);
+        void onLongClick(int position,View itemview, String boardID, String boardName);
     }
 
 }
