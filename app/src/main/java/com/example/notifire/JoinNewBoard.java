@@ -84,13 +84,13 @@ public class JoinNewBoard extends AppCompatActivity implements SearchRVAdapter.M
     }
 
     @Override
-    public void onMyClick(int position, String boardID) {
+    public void onMyClick(int position, Board board) {
         db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .update("joinedBoardsID", FieldValue.arrayUnion(boardID)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                .collection("joinedBoards").document(board.getBoardID()).set(board)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(JoinNewBoard.this, "You joined the board", Toast.LENGTH_SHORT).show();
-                SplashScreen.joinedBoardsList.add(boardID);
             }
         });
     }

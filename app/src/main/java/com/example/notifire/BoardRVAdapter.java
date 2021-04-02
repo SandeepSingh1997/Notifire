@@ -69,7 +69,7 @@ public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapt
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    myOnClickListener.onLongClick(getAdapterPosition(), v ,boardID, boardName );
+                    myOnClickListener.onLongClick(getAdapterPosition(), v, boardID, boardName);
                     return true;
                 }
             });
@@ -80,7 +80,7 @@ public class BoardRVAdapter extends FirestoreRecyclerAdapter<Board, BoardRVAdapt
     public interface MyOnClickListener {
         void onClick(int position, String boardID);
 
-        void onLongClick(int position,View itemview, String boardID, String boardName);
+        void onLongClick(int position, View itemview, String boardID, String boardName);
     }
 
 }

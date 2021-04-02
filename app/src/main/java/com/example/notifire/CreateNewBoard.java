@@ -31,10 +31,8 @@ public class CreateNewBoard extends AppCompatActivity {
     private Button createNewButton, selectImageButton;
     private EditText titleEText, descEText, contactEText;
     private ImageView imageView;
-    Bitmap image;
     private int PICK_IMG = 100;
     private FirebaseFirestore db;
-    StorageReference imageStorageRef;
     String boardID;
     private Uri imageUri;
 
@@ -77,12 +75,13 @@ public class CreateNewBoard extends AppCompatActivity {
                 db.collection("boards").add(board).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        //adding the board ID in user's ownedBoards field
                         boardID = documentReference.getId();
                         documentReference.update("boardID", boardID);
-                        db.collection("users").document(uID).update("ownedBoardsID",
-                                FieldValue.arrayUnion(boardID));
-                        //Toast.makeText(CreateNewBoard.this, "The board has been added", Toast.LENGTH_SHORT).show();
+
+                        Board userBoard = new Board(boardID, title, description, contact, uID);
+                        //adding the board ID in user's ownedBoards field
+                        db.collection("users").document(uID).collection("ownedBoards").document(boardID).set(userBoard);
+                        Toast.makeText(CreateNewBoard.this, "The board has been added", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

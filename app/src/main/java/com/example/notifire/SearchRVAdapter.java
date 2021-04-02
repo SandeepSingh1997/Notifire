@@ -39,7 +39,7 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Board board = boardArrayList.get(position);
-        holder.boardID = board.getBoardID();
+        holder.board = board;
         holder.title.setText(board.getTitle());
         holder.desc.setText(board.getDescription());
     }
@@ -53,7 +53,7 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title, desc;
-        public String boardID;
+        public Board board;
         MyClickListener myClickListener;
 
         public ViewHolder(@NonNull View itemView, MyClickListener listener) {
@@ -62,13 +62,13 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.ViewHo
             desc = itemView.findViewById(R.id.search_tile_desc);
             myClickListener = listener;
             itemView.setOnClickListener(v -> {
-                myClickListener.onMyClick(getAdapterPosition(), boardID);
+                myClickListener.onMyClick(getAdapterPosition(), board);
             });
         }
     }
 
     public interface MyClickListener {
-         void onMyClick(int position, String boardID);
+         void onMyClick(int position, Board board);
     }
 
 }

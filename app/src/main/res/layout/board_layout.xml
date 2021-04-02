@@ -6,7 +6,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical"
         android:foreground="@drawable/ripple_effect">
 
@@ -19,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tile_height"
+            android:layout_height="150dp"
             android:padding="15dp"
             android:orientation="horizontal">
 

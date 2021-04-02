@@ -16,7 +16,7 @@
 
     <style name="mytheme" parent="Theme.Design.NoActionBar">
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/black_color</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/dark_pink</item>

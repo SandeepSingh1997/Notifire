@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
-    private EditText inputEmail, inputPassword,inputCPassword, inputName;
+    private EditText inputEmail, inputPassword, inputCPassword, inputName;
     private Button btnSignUp;
     private FirebaseAuth auth;
     private ProgressBar signUpPbar;
@@ -49,58 +49,57 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = inputName.getText().toString().trim();
-                String email=inputEmail.getText().toString().trim();
-                String password=inputPassword.getText().toString().trim();
-                String cpassword=inputCPassword.getText().toString().trim();
+                String email = inputEmail.getText().toString().trim();
+                String password = inputPassword.getText().toString().trim();
+                String cpassword = inputCPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(name)){
+                if (TextUtils.isEmpty(name)) {
                     inputName.setError("Name cannot be blank !");
                     return;
                 }
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     inputEmail.setError("Username cannot be Blank !");
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     inputPassword.setError("password cannot be Blank !");
                     return;
                 }
-                if(password.length()<6){
+                if (password.length() < 6) {
                     inputPassword.setError(" passwords must be atleast 6 characters long");
                     return;
                 }
-                if(!password.equals(cpassword)){
+                if (!password.equals(cpassword)) {
                     inputPassword.setError("passwords are not the same");
                     return;
                 }
                 signUpPbar.setVisibility(View.VISIBLE);
-                auth.createUserWithEmailAndPassword(email,password)
+                auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignupActivity.this,"createUserWithEmail:onComplete:"+task.isSuccessful(),Toast.LENGTH_SHORT).show();
-                                if(!task.isSuccessful()){
+                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                if (!task.isSuccessful()) {
                                     signUpPbar.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(SignupActivity.this,"Sign Up Failed"+task.getException(),Toast.LENGTH_SHORT).show();
-                                }
-                                else{
+                                    Toast.makeText(SignupActivity.this, "Sign Up Failed" + task.getException(), Toast.LENGTH_SHORT).show();
+                                } else {
                                     //adding user document in firestore
                                     String uID = task.getResult().getUser().getUid();
                                     Map<String, Object> user = new HashMap<>();
-                                    user.put("name",name);
+                                    user.put("name", name);
                                     db.collection("users").document(uID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(SignupActivity.this, "SignUp Succesful",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignupActivity.this, "SignUp Succesful", Toast.LENGTH_SHORT).show();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(SignupActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
 
-                                    startActivity(new Intent(SignupActivity.this,SplashScreen.class));
+                                    startActivity(new Intent(SignupActivity.this, SplashScreen.class));
                                     finish();
                                 }
                             }

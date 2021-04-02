@@ -8,15 +8,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class NotificationList extends AppCompatActivity{
 
-    private FloatingActionButton publishNewButton;
+    private TextView publishNewButton;
     private String boardID;
     private NoticeListRVAdapter adapter;
     @Override
@@ -42,7 +45,7 @@ public class NotificationList extends AppCompatActivity{
         //checking from which fragment activity started
         boolean isFromOwnedActivity = getIntent().getBooleanExtra("isFromOwned",false);
         if(isFromOwnedActivity){
-            publishNewButton = (FloatingActionButton) findViewById(R.id.publish_new_button);
+            publishNewButton = (TextView) findViewById(R.id.publish_new_button);
             publishNewButton.setVisibility(View.VISIBLE);
             publishNewButton.setOnClickListener(new View.OnClickListener() {
                 @Override

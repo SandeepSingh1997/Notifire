@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -23,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,10 +36,7 @@ import java.util.List;
 
 public class Joined extends Fragment implements BoardRVAdapter.MyOnClickListener {
 
-    private String uId;
-
     public Joined() {
-        this.uId = SplashScreen.uId;
     }
 
     @Override
@@ -44,12 +44,12 @@ public class Joined extends Fragment implements BoardRVAdapter.MyOnClickListener
         super.onCreate(savedInstanceState);
     }
 
-    private FloatingActionButton joinNewButton;
+    private TextView joinNewButton;
     private FirebaseFirestore db;
     private BoardRVAdapter adapter;
     private RecyclerView recyclerView;
     ViewGroup viewGroup;
-    ArrayList<String> joinedList;
+    private String uID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,10 +60,10 @@ public class Joined extends Fragment implements BoardRVAdapter.MyOnClickListener
         View view = inflater.inflate(R.layout.fragment_joined, container, false);
 
         db = FirebaseFirestore.getInstance();
+        uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        joinedList = SplashScreen.joinedBoardsList;
-
-        Query query = db.collection("boards").whereIn("__name__", joinedList);
+        Query query = db.collection("users").document(uID)
+                .collection("joinedBoards");
         FirestoreRecyclerOptions<Board> options = new FirestoreRecyclerOptions.Builder<Board>().
                 setQuery(query, Board.class).build();
         adapter = new BoardRVAdapter(Joined.this, options);
@@ -74,7 +74,7 @@ public class Joined extends Fragment implements BoardRVAdapter.MyOnClickListener
         recyclerView.setAdapter(adapter);
 
         //Setting up the join new button
-        joinNewButton = (FloatingActionButton) view.findViewById(R.id.join_new_button);
+        joinNewButton = (TextView) view.findViewById(R.id.join_new_button);
         joinNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,8 +113,7 @@ public class Joined extends Fragment implements BoardRVAdapter.MyOnClickListener
         builder.setMessage("Do you want to Unjoin '"+bName+"'").setPositiveButton("unjoin", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                db.collection("users").document(uId).update("joinedBoardsID", FieldValue.arrayRemove(boardID));
-                SplashScreen.joinedBoardsList.remove(boardID);
+                db.collection("users").document(uID).collection("joinedBoards").document(boardID).delete();
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override

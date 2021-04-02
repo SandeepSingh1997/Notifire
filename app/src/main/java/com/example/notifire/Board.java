@@ -12,6 +12,13 @@ public class Board {
         this.contact = contact;
         this.ownerID = ownerID;
     }
+    public Board(String boardID, String title, String description, String contact, String ownerID) {
+        this.boardID = boardID;
+        this.title = title;
+        this.description = description;
+        this.contact = contact;
+        this.ownerID = ownerID;
+    }
 
     public String getOwnerID() {
         return ownerID;

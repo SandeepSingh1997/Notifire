@@ -9,6 +9,11 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- App related -->
+    <color name="bg_color">#F5F5F5</color>
+    <color name="red_color">#FC4B4B</color>
+    <color name="black_color">#000000</color>
+
+
     <color name="login_bg">#08063D</color>
     <color name="orange">#FE805D</color>
     <color name="text_black">#4A4A4A</color>

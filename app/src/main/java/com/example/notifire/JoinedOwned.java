@@ -36,8 +36,6 @@ public class JoinedOwned extends AppCompatActivity {
     private Button logout;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore db;
-    private String uId;
 
     private TextView userIdText;
 
@@ -50,11 +48,8 @@ public class JoinedOwned extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         logout = (Button) findViewById(R.id.logout);
         userIdText = (TextView)findViewById(R.id.userID);
-        userIdText.setText(SplashScreen.name);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        uId = firebaseAuth.getCurrentUser().getUid();
-        db = FirebaseFirestore.getInstance();
 
         //Fragments
         joinedFragment = new Joined();
